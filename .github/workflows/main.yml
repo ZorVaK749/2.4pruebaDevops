@@ -44,13 +44,20 @@ jobs:
 
       # --- SEGURIDAD ---
 
-      # 5. Snyk - Análisis de dependencias (Versión CLI más compatible)
+      # 5. Snyk - Análisis de dependencias (Versión corregida)
+      - name: Install dependencies
+        run: mvn install -DskipTests # Preparamos el proyecto para que Snyk no tenga que descargar nada
+
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/setup@master
+
       - name: Snyk Test
-        run: snyk test --severity-threshold=high
+        shell: bash
+        run: |
+          snyk test --severity-threshold=high --maven-aggregate-project
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64 # Ruta típica en el runner de Ubuntu
 
       # 6. SonarCloud - Análisis de código (Usando tu Project Key)
       - name: Build and analyze with SonarCloud
