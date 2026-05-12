@@ -127,6 +127,10 @@ jobs:
       - name: Give execute permission to Maven Wrapper
         run: chmod +x mvnw
 
+      # IMPORTANTE
+      - name: Build project for Sonar
+        run: ./mvnw clean verify
+
       - name: Run SonarCloud
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -138,6 +142,7 @@ jobs:
             -Dsonar.organization=zorvak749 \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.token=$SONAR_TOKEN \
+            -Dsonar.java.binaries=target/classes \
             -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
 
   # =========================
