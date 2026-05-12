@@ -46,12 +46,20 @@ jobs:
 
       # 5. Snyk - Análisis de dependencias (Solución Definitiva)
       - name: Install Snyk CLI
-        uses: snyk/actions/setup@master
+        run: npm install -g snyk
 
-      - name: Snyk Test
-        run: snyk test --severity-threshold=high
+      - name: Snyk Auth
+        run: snyk auth ${{ secrets.SNYK_TOKEN }}
+
+      - name: Run Snyk Scan
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: |
+          snyk test \
+            --file=pom.xml \
+            --package-manager=maven \
+            --severity-threshold=high
+
 
       # 6. SonarCloud - Análisis de código (Usando tu Project Key)
       - name: Build and analyze with SonarCloud
