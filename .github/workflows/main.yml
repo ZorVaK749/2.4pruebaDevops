@@ -132,7 +132,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
         run: |
-          ./mvnw verify sonar:sonar \
+          ./mvnw \
+            org.sonarsource.scanner.maven:sonar-maven-plugin:4.0.0.4121:sonar \
             -Dsonar.projectKey=ZorVaK749_2.4pruebaDevops \
             -Dsonar.organization=zorvak749 \
             -Dsonar.host.url=https://sonarcloud.io \
