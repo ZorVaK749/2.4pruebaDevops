@@ -44,13 +44,14 @@ jobs:
 
       # --- SEGURIDAD ---
 
-      # 5. Snyk - Análisis de dependencias (Versión simplificada oficial)
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/maven@master
+      # 5. Snyk - Análisis de dependencias (Solución Definitiva)
+      - name: Install Snyk CLI
+        uses: snyk/actions/setup@master
+
+      - name: Snyk Test
+        run: snyk test --severity-threshold=high
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --severity-threshold=high
 
       # 6. SonarCloud - Análisis de código (Usando tu Project Key)
       - name: Build and analyze with SonarCloud
